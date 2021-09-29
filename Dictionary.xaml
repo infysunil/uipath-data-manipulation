@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Dictionary" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="919.2,792.8" sap2010:WorkflowViewState.IdRef="Dictionary_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Dictionary" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="919.2,892.8" sap2010:WorkflowViewState.IdRef="Dictionary_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
       <x:String>System.Activities</x:String>
@@ -28,6 +28,7 @@
       <x:String>System.Collections.ObjectModel</x:String>
       <x:String>System.Activities.DynamicUpdate</x:String>
       <x:String>System.Security</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -59,11 +60,11 @@
       <AssemblyReference>UiPath.Excel</AssemblyReference>
       <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
       <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
       <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Dictionary" sap:VirtualizedContainerService.HintSize="544.8,728" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Dictionary" sap:VirtualizedContainerService.HintSize="544.8,828" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="scg:Dictionary(x:String, x:String)" Name="StudentDict" />
     </Sequence.Variables>
@@ -72,12 +73,20 @@
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <Assign sap:VirtualizedContainerService.HintSize="503.2,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+    <Assign DisplayName="Assign Dictionary" sap:VirtualizedContainerService.HintSize="503.2,60" sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
         <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:String)">[StudentDict]</OutArgument>
       </Assign.To>
       <Assign.Value>
         <InArgument x:TypeArguments="scg:Dictionary(x:String, x:String)">[New Dictionary(Of String, String) From{ {"Name", "Abcd"}, {"RollNo","30"}, {"Course", "MCA"}, {"City", "Pune"}}]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Add new key value" sap:VirtualizedContainerService.HintSize="503.2,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[StudentDict.Item("College")]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">PCCOE</InArgument>
       </Assign.Value>
     </Assign>
     <Sequence DisplayName="Keys" sap:VirtualizedContainerService.HintSize="503.2,68.8" sap2010:WorkflowViewState.IdRef="Sequence_3">
@@ -108,12 +117,8 @@
     </Sequence>
     <ui:InvokeCode ContinueOnError="{x:Null}" Code="StudentDict.Add(&quot;University&quot;, University)" DisplayName="Invoke code" sap:VirtualizedContainerService.HintSize="503.2,164.8" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
       <ui:InvokeCode.Arguments>
-        <InOutArgument x:TypeArguments="scg:Dictionary(x:String, x:String)" x:Key="StudentDict">
-          <mva:VisualBasicReference x:TypeArguments="scg:Dictionary(x:String, x:String)" ExpressionText="StudentDict" />
-        </InOutArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="University">
-          <Literal x:TypeArguments="x:String">Pune University</Literal>
-        </InArgument>
+        <InOutArgument x:TypeArguments="scg:Dictionary(x:String, x:String)" x:Key="StudentDict">[StudentDict]</InOutArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="University">Pune University</InArgument>
       </ui:InvokeCode.Arguments>
     </ui:InvokeCode>
     <If Condition="[StudentDict.ContainsKey(&quot;University&quot;)]" sap:VirtualizedContainerService.HintSize="503.2,221.6" sap2010:WorkflowViewState.IdRef="If_1">
